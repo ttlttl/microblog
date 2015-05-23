@@ -1,2 +1,4 @@
 *.pyc
+*.db
 flask
+db_repository
