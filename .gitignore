@@ -1,5 +1,6 @@
 *.pyc
 *.db
+*.swp
 flask
 tmp
 db_repository
