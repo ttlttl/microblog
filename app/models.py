@@ -1,4 +1,5 @@
 from app import db
+from hashlib import md5
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -21,6 +22,10 @@ class User(db.Model):
 
     def get_id(self):
         return unicode(self.id)
+
+    def avatar(self, size):
+        #return 'http://www.gravator.com/avator/' + md5(self.email).hexdigest() + '?d=mm&s=' + str(size)
+        return 'http://www.qqzhi.com/uploadpic/2014-05-05/140415288.jpg'
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
