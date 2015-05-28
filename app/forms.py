@@ -3,6 +3,9 @@ from wtforms import TextField, BooleanField
 from wtforms.validators import Required, Length
 from app.models import User
 
+class SearchForm(Form):
+    search = TextField('search', validators = [Required()])
+
 class LoginForm(Form):
     openid = TextField('openid', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)
