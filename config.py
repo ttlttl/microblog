@@ -16,11 +16,16 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'app.db')
 SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, 'db_repository')
 
 #### Mail server setting ####
-MAIL_SERVER = 'localhost'
-MAIL_PORT = 25
+MAIL_SERVER = 'smtp.googlemail.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
 MAIL_USERNAME = None
 MAIL_PASSWORD = None
-ADMINS = ['watchpenguin@gmail.com']
+MAIL_USERNAME = 'username'
+MAIL_PASSWORD = 'password'
+
+ADMINS = ['abc@def.com']
 
 #### Pagination ####
 POSTS_PER_PAGE = 3
