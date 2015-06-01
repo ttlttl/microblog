@@ -4,6 +4,6 @@ Dear {{user.nickname}},
 
 {{url_for("user", nickname = follower.nickname, _external = True)}}
 
-Best Regards,
+Regards,
 
 The microblog admin
