@@ -6,11 +6,13 @@ from flask.ext.openid import OpenID
 from config import basedir, ADMINS, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 from flask.ext.mail import Mail
 from momentjs import momentjs
+from flask.ext.babel import Babel
 
 app = Flask(__name__)
 app.config.from_object('config')
 app.jinja_env.globals['momentjs'] = momentjs
 db = SQLAlchemy(app)
+babel = Babel(app)
 
 mail = Mail(app)
 
@@ -42,17 +44,4 @@ if not app.debug:
     app.logger.info('microblog startup')
 
 from app import views, models
-
-
-
-
-
-
-
-
-
-
-
-
-
 

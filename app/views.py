@@ -6,7 +6,19 @@ from models import User, ROLE_USER, ROLE_ADMIN, Post
 from datetime import datetime
 from config import POSTS_PER_PAGE
 from forms import SearchForm
+from app import babel
+from config import LANGUAGES
+from flask.ext.babel import gettext
+from guess_language import guessLanguage
+from flask import jsonify
+from translate import microsoft_translate
 #from emails import follower_notification
+
+
+
+@babel.localeselector
+def get_locale():
+    return request.accept_languages.best_match(LANGUAGES.keys())
 
 
 
@@ -17,7 +29,13 @@ from forms import SearchForm
 def index(page = 1):
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body = form.post.data, timestamp = datetime.utcnow(), author = g.user)
+        language = guessLanguage(form.post.data)
+        if language == 'UNKNOWN' or len(language) > 5:
+            language = ''
+        post = Post(body = form.post.data,
+            timestamp = datetime.utcnow(), 
+            author = g.user,
+            language = language)
         db.session.add(post)
         db.session.commit()
         flash('Your post is now live!')
@@ -65,13 +83,15 @@ def before_request():
 @oid.after_login
 def after_login(resp):
     if resp.email is None or resp.email == "":
-        flash('Invalid login, Please try again.')
+        flash(gettext('Invalid login, Please try again.'))
         return redirect(url_for('login'))
     user = User.query.filter_by(email = resp.email).first()
     if user is None:
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname == resp.email.split('@')[0]
+        nickname = User.make_valid_nickname(nickname)
+        nickname = User.make_unique_nickname(nickname)
         user = User(nickname = nickname, email = resp.email, role = ROLE_USER)
         db.session.add(user)
         db.session.commit()
@@ -199,6 +219,16 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 
+
+@app.route('/translate', methods = ['POST'])
+@login_required
+def translate():
+    return jsonify({
+        'text': microsoft_translate(
+            request.form['text'],
+            request.form['sourceLang'],
+            request.form['destLang'])
+    })
 
 
 

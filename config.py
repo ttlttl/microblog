@@ -1,3 +1,12 @@
+# _*_ coding: utf-8 _*_
+# ...
+# available laguages
+
+LANGUAGES = {
+    'en': 'English',
+    'es': 'Español'
+}
+
 CSRF_ENABLED = True
 SECRET_KEY = "hahaha"
 
@@ -34,3 +43,6 @@ POSTS_PER_PAGE = 3
 WHOOSH_BASE = os.path.join(basedir, 'search.db')
 MAX_SEARCH_RESULTS = 50
 
+#### Microsoft Translation ####
+MS_TRANSLATOR_CLIENT_ID = 'xxx'
+MS_TRANSLATOR_CLIENT_SECRET = 'xxx'
